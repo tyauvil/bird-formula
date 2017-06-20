@@ -1,0 +1,22 @@
+{%- from 'bird/settings.sls' import bird with context %}
+# Managed by Salt
+
+router id {{ salt['network.interface_ip']('eth0') }};
+
+# The Kernel protocol is not a real routing protocol. Instead of communicating
+# with other routers in the network, it performs synchronization of BIRD's
+# routing tables with the OS kernel.
+protocol kernel {
+	scan time 60;
+	#import none;
+	export all;   # Actually insert routes into the kernel routing table
+}
+
+# The Device protocol is not a real routing protocol. It doesn't generate any
+# routes and it only serves as a module for getting information about network
+# interfaces from the kernel. 
+protocol device {
+	scan time 60;
+}
+
+include "/etc/bird/config.d/*";

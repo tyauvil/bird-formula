@@ -1,0 +1,8 @@
+# Managed by Salt
+
+protocol bgp {{ route }} {
+
+        local as 65000;
+        export where proto = "static_bgp";
+        neighbor {{ neighbor_ip }} as {{ remote_as }};
+}
